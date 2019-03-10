@@ -16,6 +16,11 @@ class Profile(models.Model):
 
     def save_profile(self):
         self.save()
+        
+    @classmethod
+    def get_by_id(cls, id):
+        profile = Profile.objects.get(user = id)
+        return profile
 
 class Image(models.Model):
    """
