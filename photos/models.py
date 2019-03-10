@@ -27,3 +27,12 @@ class Image(models.Model):
    poster = models.ForeignKey(User,related_name='images')
    likes = models.ManyToManyField(User, related_name='likes' ,blank = True)
    date = models.DateTimeField(auto_now_add = True,null = True)
+
+
+   class Comments(models.Model):
+    text = models.CharField(max_length = 100, blank = True)
+    image = models.ForeignKey(Image, related_name = "comments")
+    author = models.ForeignKey(User, related_name = "author")
+    created_date = models.DateTimeField(auto_now_add = True,null = True)
+    approved_comment = models.BooleanField(default=False)
+ 
