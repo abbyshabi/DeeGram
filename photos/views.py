@@ -100,17 +100,17 @@ def like_image(request):
 
     return HttpResponseRedirect(images.get_absolute_url())
 
-@login_required (login_url='/accounts/register/')
-def follow_user(request):
-    profile = get_object_or_404(Profile,id = request.POST.get('profile_id'))
-    is_followed = False
-    if profile.follows.filter(id=request.user.id).exists():
-        profile.follows.remove(request.user)
-        is_followed = False
-    else:
-        profile.follows.add(request.user)
-        is_followed=True
-        return HttpResponseRedirect(profile.get_absolute_url())
+# @login_required (login_url='/accounts/register/')
+# def follow_user(request):
+#     profile = get_object_or_404(Profile,id = request.POST.get('profile_id'))
+#     is_followed = False
+#     if profile.follows.filter(id=request.user.id).exists():
+#         profile.follows.remove(request.user)
+#         is_followed = False
+#     else:
+#         profile.follows.add(request.user)
+#         is_followed=True
+#         return HttpResponseRedirect(profile.get_absolute_url())
 
 def search(request):
     if 'search' in request.GET and request.GET['search']:
@@ -122,3 +122,14 @@ def search(request):
     else:
         message = 'Enter term to search'
         return render(request, 'search.html', {'message':message})
+
+def follow_user(request, username):
+    profile_to_follow = User.objects.get(username=username)
+    user_profile = request.user.username
+    data = {}
+    if profile_to_follow.follows.filter(id=request.user.username).exists():
+        data['message'] = "You are already following this user."
+    else:
+        profile_to_follow.follows.add(user_profile)
+        data['message'] = "You are now following {}".format(profile_to_follow)
+    return JsonResponse(data, safe=False)

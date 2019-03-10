@@ -39,7 +39,7 @@
                         </li>
                         {% else %}
                         <li class="list-inline-item">
-                            <a href="#" class="btn btn-primary">Follow</a>
+                            <a href="{% url 'follow_user' username=profile.username%}" class="btn btn-primary">Follow</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -48,10 +48,10 @@
                             <span class="font-weight-bold">{{images|length}} </span> Posts
                         </li>
                         <li class="list-inline-item">
-                            <span class="font-weight-bold">0 </span> Followers
+                            <span class="font-weight-bold"> </span> Followers :{{profile.follows.count}}
                         </li>
                         <li class="list-inline-item">
-                            <span class="font-weight-bold">0 </span> Following
+                            <span class="font-weight-bold"></span> Following :{{profile.follows.count}}
                         </li>
                     </ul>
                     <p class="font3"> About ME: <b>{{profile_details.bio| linebreaks}}</b></p>
