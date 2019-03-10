@@ -51,3 +51,10 @@ def new_image(request):
         form = ImageForm()
 
     return render(request,'new_image.html',{'form':form})
+
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    user = request.user
+    #profile = Profile.objects.get(user_id=current_user.id)
+    images = Image.objects.all().filter(poster_id=user.id)
+    return render(request, 'profile.html',{"user":user, "current_user":request.user,"images":images})
