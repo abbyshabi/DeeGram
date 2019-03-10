@@ -29,7 +29,7 @@ class Image(models.Model):
    date = models.DateTimeField(auto_now_add = True,null = True)
 
 
-   class Comments(models.Model):
+class Comments(models.Model):
     text = models.CharField(max_length = 100, blank = True)
     image = models.ForeignKey(Image, related_name = "comments")
     author = models.ForeignKey(User, related_name = "author")
