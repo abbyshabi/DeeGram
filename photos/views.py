@@ -99,3 +99,15 @@ def like_image(request):
         is_liked = True
 
     return HttpResponseRedirect(images.get_absolute_url())
+
+@login_required (login_url='/accounts/register/')
+def follow_user(request):
+    profile = get_object_or_404(Profile,id = request.POST.get('profile_id'))
+    is_followed = False
+    if profile.follows.filter(id=request.user.id).exists():
+        profile.follows.remove(request.user)
+        is_followed = False
+    else:
+        profile.follows.add(request.user)
+        is_followed=True
+        return HttpResponseRedirect(profile.get_absolute_url())
