@@ -36,7 +36,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user
-        
+
 
 class Image(models.Model):
    """
@@ -49,6 +49,54 @@ class Image(models.Model):
    likes = models.ManyToManyField(User, related_name='likes' ,blank = True)
    date = models.DateTimeField(auto_now_add = True,null = True)
 
+   def search_by_user(cls, search_term):
+        images = cls.objects.filter(image_caption__icontains=search_term)
+        return images
+   
+   def total_likes(self):
+       return self.likes.count
+
+   @classmethod
+   def get_profile_images(cls, poster):
+        images = Image.objects.filter(poster__pk = poster)
+        return images
+
+   def save_image(self):
+       """
+       This is the function that we will use to save the instance of this class
+       """
+       self.save()
+
+   def delete_image(self):
+       """
+       This is the function that we will use to delete the instance of this class
+       """
+       Image.objects.get(id = self.id).delete()
+
+   def update_image(self,val):
+       """
+       This is the method to update the instance
+       """
+       Image.objects.filter(id = self.id).update(name = val)
+    
+   def get_absolute_url(self): 
+        return reverse('home') 
+
+   @classmethod
+   def get_photos(cls):
+       return cls.objects.all()
+
+   
+   @classmethod
+   def filter_by_location(cls,location):
+       """
+       This is the method to get images taken in a certain location
+       """
+       the_location = Location.objects.get(name = location)
+       return cls.objects.filter(location_id = the_location.id)
+
+   def __str__(self):
+       return self.name
 
 class Comments(models.Model):
     text = models.CharField(max_length = 100, blank = True)
