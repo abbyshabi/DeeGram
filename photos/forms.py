@@ -7,3 +7,8 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
         exclude=['likes','poster']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user']
