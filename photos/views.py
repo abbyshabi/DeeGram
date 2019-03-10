@@ -58,3 +58,16 @@ def profile(request):
     #profile = Profile.objects.get(user_id=current_user.id)
     images = Image.objects.all().filter(poster_id=user.id)
     return render(request, 'profile.html',{"user":user, "current_user":request.user,"images":images})
+
+@login_required(login_url='/accounts/login/')
+def user_profile(request,username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.get_by_id(profile.id)
+    
+    images = Image.get_profile_images(profile.id)
+    
+    is_followed = False
+    if profile.follows.filter(id=request.user.id).exists():
+        is_followed = True
+
+    return render(request, 'user_profile.html', { 'profile':profile, 'profile_details':profile_details, 'images':images,'is_followed':is_followed})
