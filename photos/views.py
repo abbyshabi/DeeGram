@@ -111,3 +111,14 @@ def follow_user(request):
         profile.follows.add(request.user)
         is_followed=True
         return HttpResponseRedirect(profile.get_absolute_url())
+
+def search(request):
+    if 'search' in request.GET and request.GET['search']:
+        search_term = request.GET.get('search')
+        profiles = Profile.search_profile(search_term)
+        message = f'{search_term}'
+
+        return render(request, 'search.html',{'message':message, 'profiles':profiles})
+    else:
+        message = 'Enter term to search'
+        return render(request, 'search.html', {'message':message})
