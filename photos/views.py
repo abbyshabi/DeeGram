@@ -36,3 +36,18 @@ def image(request,image_id):
         is_liked = True
     
     return render(request,"image.html", {"image":image,"is_liked":is_liked,"total_likes":image.total_likes(),'comments':comments,'form':form})
+
+@login_required(login_url='/accounts/login/')
+def new_image(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.poster= current_user
+            image.save()
+        return redirect('home')
+    else:
+        form = ImageForm()
+
+    return render(request,'new_image.html',{'form':form})
