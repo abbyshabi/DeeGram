@@ -1,0 +1,38 @@
+{% extends 'registration/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+ <link href="/static/css/style.css" rel="stylesheet">
+<div class="container">
+  
+        <div class="col-md-6">
+            <img src="/static/images/gram4.jpg" alt="Phone images" style="height:700px;width:500px; padding-top:25px;">
+        </div>
+        <div class="col-md-6">
+            {% if form.errors %}
+                <p>Some information may be incorrect</p>
+            {% endif %}
+            <div class="signup-fields">
+                <div class="section">
+                        <h3 class="w3-left w3-padding" style="font-family: 'Pacifico', cursive; font-size:45px; padding-bottom:25px;color: #875EA7;">DeeGram</h3>
+                    <div class="form-section">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            <div class="form-group">
+                                <input type="submit" class="button" value="Sign up">
+                            </div>
+                            <input type="hidden" name="next" value="{{next}}">
+                        </form>
+                    </div>
+                </div>
+                <div class="section">
+                    <p> You already have an account? <a href="/accounts/login/">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
