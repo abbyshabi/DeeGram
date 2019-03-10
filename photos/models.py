@@ -29,6 +29,14 @@ class Profile(models.Model):
     def get_absolute_url(self): 
         return reverse('user_profile')
     
+    @classmethod
+    def search_profile(cls,name):
+        profile = Profile.objects.filter(user__username__icontains = name)
+        return profile
+
+    def __str__(self):
+        return self.user
+        
 
 class Image(models.Model):
    """
