@@ -104,4 +104,24 @@ class Comments(models.Model):
     author = models.ForeignKey(User, related_name = "author")
     created_date = models.DateTimeField(auto_now_add = True,null = True)
     approved_comment = models.BooleanField(default=False)
+
+
+ 
+    def save_comment(self):
+       """
+       This is the function that we will use to save the instance of this class
+       """
+       self.save()
+
+    def delete_comment(self):
+        Comments.objects.get(id = self.id).delete()
+    
+    @classmethod
+    def get_comments_by_images(cls, id):
+        comments = Comments.objects.filter(image__pk = id)
+        return comments
+        
+    def __str__(self):
+        return self.text
+
  
