@@ -71,3 +71,18 @@ def user_profile(request,username):
         is_followed = True
 
     return render(request, 'user_profile.html', { 'profile':profile, 'profile_details':profile_details, 'images':images,'is_followed':is_followed})
+
+@login_required(login_url='/accounts/login/')
+def update_profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect ('profile')
+    else:
+        form = ProfileForm()
+    
+    return render(request,'update_profile.html',{"form":form})
