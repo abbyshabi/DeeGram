@@ -16,3 +16,14 @@ class Profile(models.Model):
 
     def save_profile(self):
         self.save()
+
+class Image(models.Model):
+   """
+   This is the class we will use to create images
+   """
+   image_url = models.ImageField(upload_to = "images/")
+   name = models.CharField(max_length = 30)
+   caption = HTMLField()
+   poster = models.ForeignKey(User,related_name='images')
+   likes = models.ManyToManyField(User, related_name='likes' ,blank = True)
+   date = models.DateTimeField(auto_now_add = True,null = True)
