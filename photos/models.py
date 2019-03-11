@@ -6,7 +6,17 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
+
+def post_save_user_model(sender,instance,created,*args,**kwargs):
+    if created:
+        try: 
+            Profile.objects.create(user = instance)
+        except:
+            pass
+post_save.connect(post_save_user_model,sender=settings.AUTH_USER_MODEL)
+        
 
 class Profile(models.Model):
     profile_image = models.ImageField(blank=True,upload_to='profiles/')
@@ -30,15 +40,17 @@ class Profile(models.Model):
         return profile
 
     def get_absolute_url(self): 
-        return reverse('user_profile')
+        return reverse('home')
     
     @classmethod
     def search_profile(cls,name):
         profile = Profile.objects.filter(user__username__icontains = name)
         return profile
+    
+
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 class Image(models.Model):

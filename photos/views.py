@@ -61,10 +61,11 @@ def profile(request):
 
 @login_required(login_url='/accounts/login/')
 def user_profile(request,username):
-    profile = User.objects.get(username=username)
-    profile_details = Profile.get_by_id(profile.id)
+    profile = Profile.objects.get(user=request.user.id)
+    queryset = User.objects.get(username=username)
+    profile_details = Profile.get_by_id(queryset.id)
     
-    images = Image.get_profile_images(profile.id)
+    images = Image.get_profile_images(queryset.id)
     
     is_followed = False
     if profile.follows.filter(id=request.user.id).exists():
@@ -74,16 +75,19 @@ def user_profile(request,username):
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
-    current_user = request.user
+    # current_user = request.user
+    # user = User.objects.get(id= current_user.id)
     if request.method == 'POST':
-        form = ProfileForm(request.POST,request.FILES)
+        user = Profile.objects.get(user=request.user)
+        form = ProfileForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = current_user
-            profile.save()
+            form.save()
+            # profile = form.save(commit=False)
+            # profile.user= request.user
+            # profile.save()
         return redirect ('profile')
     else:
-        form = ProfileForm()
+        form = ProfileForm( )
     
     return render(request,'update_profile.html',{"form":form})
 
@@ -123,13 +127,28 @@ def search(request):
         message = 'Enter term to search'
         return render(request, 'search.html', {'message':message})
 
-def follow_user(request, username):
-    profile_to_follow = User.objects.get(username=username)
-    user_profile = request.user.username
-    data = {}
-    if profile_to_follow.follows.filter(id=request.user.username).exists():
-        data['message'] = "You are already following this user."
+def follow_user(request):
+    profile = get_object_or_404(Profile,id = request.POST.get('profile_id'))
+    #user_profile = request.user.profile.id
+    #data = {}
+    is_followed = False
+    if profile.follows.filter(id=request.user.profile.id).exists():
+        profile.follows.remove(request.user)
+        is_followed = False
+        #data['message'] = "You are already following this user."
     else:
-        profile_to_follow.follows.add(user_profile)
-        data['message'] = "You are now following {}".format(profile_to_follow)
-    return JsonResponse(data, safe=False)
+        profile.follows.add(request.user)
+        is_followed= True
+        #data['message'] = "You are now following {}".format(profile_to_follow)
+    return HttpResponseRedirect(profile.get_absolute_url())
+
+# def follow_user(request, profile_id):
+#     profile_to_follow = get_object_or_404(Profile, pk=profile_id)
+#     user_profile = request.user.profile.id
+#     data = {}
+#     if profile_to_follow.follows.filter(id=profile_id).exists():
+#         data['message'] = "You are already following this user."
+#     else:
+#         profile_to_follow.follows.add(user_profile)
+#         data['message'] = "You are now following {}".format(profile_to_follow)
+#     return JsonResponse(data, safe=False)

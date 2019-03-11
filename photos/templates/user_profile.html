@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -22,15 +23,15 @@
                     {% if profile_details.profile_image %}
                     <img src="{{profile_details.profile_image.url}}" class="w3-circle" style="height:150px;width:150px"alt="profile-photo">
                     {% else %}
-                    <img src="/static/images/avatar.png" alt="avatar">
+                    <img src="/static/images1/images.png"  class="w3-circle" style="height:150px;width:150px"alt="profile-photo" alt="avatar">
                     {% endif %}
                 </div>
                 <div class="col-md-5 text-center">
                     <ul class="list-inline">
                         <li class="list-inline-item">
-                            <span class="username">{{ profile.username }}</span> 
+                            <span class="username">{{ profile_details.user.username }}</span> 
                         </li>
-                        {% if profile.username == user.username %}
+                        {% if  profile_details.user.username  == user.username %}
                         <li class="list-inline-item">
                             <a class="btn btn-edit" href="">Edit Profile</a>
                         </li>
@@ -39,7 +40,17 @@
                         </li>
                         {% else %}
                         <li class="list-inline-item">
-                            <a href="{% url 'follow_user' username=profile.username%}" class="btn btn-primary">Follow</a>
+                     <form action="{%url 'follow_user'%}" method="POST">
+                    {% csrf_token%}
+                    {%if is_followed%}
+                    <button type="submit" name="profile_id" value="{{profile.id}}" class="btn btn-danger"> Unfollow </button>
+                    
+                    {%else%}
+                    <button type="submit" name="profile_id" value="{{profile.id}}" class="button">Follow </button>
+                    
+                   
+                </form>
+                {%endif%}
                         </li>
                         {% endif %}
                     </ul>
@@ -51,7 +62,7 @@
                             <span class="font-weight-bold"> </span> Followers :{{profile.follows.count}}
                         </li>
                         <li class="list-inline-item">
-                            <span class="font-weight-bold"></span> Following :{{profile.follows.count}}
+                            <span class="font-weight-bold"></span> Following :{{profile.followers.count}}
                         </li>
                     </ul>
                     <p class="font3"> About ME: <b>{{profile_details.bio| linebreaks}}</b></p>

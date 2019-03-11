@@ -20,7 +20,53 @@ body{
     background-image: url('/static/images/gram1.png');
   
     background-size: 100%;
+}
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
 }
 </style>
 <body>
@@ -45,12 +91,11 @@ body{
                 <form action="{%url 'like_image'%}" method="POST">
                     {% csrf_token%}
                     {%if is_liked%}
-                    <button type="submit" name="image_id" value="{{image.id}}" class="button"> <i onclick="myFunction(this)" class="fa fa-heart-o fa-2x"></i>disLike </button> <h3</h3> 
+                    <button type="submit" name="image_id" value="{{image.id}}" class="btn btn-danger"> <i onclick="myFunction(this)" class="fa fa-heart-o fa-2x"></i>disLike </button> <h3</h3> 
                     
                     {%else%}
                     <button type="submit" name="image_id" value="{{image.id}}" class="button"> <i onclick="myFunction(this)" class="fa fa-heart-o fa-2x"></i>Like </button> <h3></h3>
                     {%endif%}
-                   
                   </form>
             </li>
             <li class="list-inline-item">
@@ -69,7 +114,7 @@ body{
     <div class="comment" style=" margin: 20px 0px 20px 20px;">
         <div class="date"></div>
          <h5 style="font-family: 'Gentium Basic', serif;"> <a href="{%url 'user_profile' username=comment.author.username %}" > <strong>{{ comment.author|upper }} :</strong></a> {{ comment.text}}</h5>
-        <p style="font-size:12px;"> comment created: {{ comment.created_date|timesince|upper }} AGO </p>
+        <p style="font-size:12px;"> {{ comment.created_date|timesince}} AGO </p>
     </div>
 {% empty %}
     <p>No comments here yet </p>
