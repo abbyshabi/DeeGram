@@ -1,7 +1,9 @@
 {%extends 'base.html/'%}
 {% load bootstrap3 %} 
 {%block content%}
+<title>image/{{image.id}}</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 .fa {
   font-size: 20px;
@@ -21,11 +23,17 @@ body{
 </style>
 
 <body>
-<div class="panel panel-default  card" style="margin-top:100px;width:50%; margin-left: 25%; ">
-
-    <div class="panel-heading " style="width:100%;height:100px;">
-        <h3 class=""> <img src="{{image.poster.profile.profile_image.url}}" style="width:70px;height:70px; border-radius: 50%;" alt="image"></h3>
-      
+<div class="container">
+    <div class="row">
+        <div class="col-md-7" style="margin-top:0px;">
+    <div class="panel-heading " style="width:100%;height:80px;">
+        <div class="panel panel-default" style="margin-top:0px;" >
+            <div class="panel-heading">
+              {% if image.poster.profile.profile_image %}
+              <h3 class=""> <img src="{{image.poster.profile.profile_image.url}}" style="width:70px;height:70px; border-radius: 50%;" alt="image"></h3>
+              {%else%}
+              <img src="/static/images1/images.png"  class="w3-circle" style="height:70px;width:70px"alt="profile-photo" alt="avatar">
+              {% endif %}
       <h3 class="text-center"> </h3>
     </div>
     <div class="panel-body">
@@ -87,11 +95,12 @@ body{
     </div>
     </div>
 </div>
+</div>
+</div>
+</div>
+</div>
 
 
 
 
 {%endblock%}
-
-
-

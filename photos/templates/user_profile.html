@@ -4,6 +4,7 @@
 {% block content %}
 {% if user.username == user.username %}
 {{ form.media }}
+<title>user / {{profile_details.user.username}}</title>
 <style>
         body{
             background-image: url('/static/images/images.jpeg');
@@ -48,9 +49,9 @@
                     {%else%}
                     <button type="submit" name="profile_id" value="{{profile.id}}" class="button">Follow </button>
                     
-                   
+                    {%endif%}
                 </form>
-                {%endif%}
+               
                         </li>
                         {% endif %}
                     </ul>
