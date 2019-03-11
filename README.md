@@ -1,5 +1,5 @@
 # DeeGram
-####Instagram clone app that allows users signup, view photos,follow users and like photos (March,2019)
+#### Instagram clone app that allows users signup, view photos,follow users and like photos (March,2019)
 #### By **Oluwadamilola Shabi**
 ## Description
 Dee-Gram is a simple python application that allows users view various photos iview photos,follow users and like photos just like instagram!
