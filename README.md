@@ -18,7 +18,7 @@ Dee-Gram is a simple python application that allows users view various photos,fo
 |Behaviour| Input | Output|
 |---------|-------|-------|
 |Homepage| - | -
-|user clicks on  image| click view image button | image description and information pops up
+|user clicks on  image| clicks image  | image information page opens
 |user clicks on like | click like button | like count is incremented
 |user click on search bar in navbar| click search| searches for various users in the application
 
