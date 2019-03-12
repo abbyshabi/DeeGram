@@ -9,8 +9,8 @@ Dee-Gram is a simple python application that allows users view various photos,fo
 * Navigate to the cloned project file on your terminal
 * Create a Virtual enviroment
 * Install Django in your virtual enviroment
-* Run the command "pip install -r requirements.txt" to install the required dependencies
-* Run the command "python3.6 manage.py runserver" to launch the application
+* Run the command `pip install -r requirements.txt` to install the required dependencies
+* Run the command `python3.6 manage.py runserver` to launch the application
 ## Testing the Application
 * To run tests for the class files:
   * $ python3.6 test_profile.py
