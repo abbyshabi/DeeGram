@@ -13,9 +13,7 @@ Dee-Gram is a simple python application that allows users view various photos,fo
 * Run the command `python3.6 manage.py runserver` to launch the application
 ## Testing the Application
 * To run tests for the class files:
-  * $ python3.6 test_profile.py
-  * $ python3.6 test_image.py
-  * $ python3.6 test_comments.py
+  * ` python3.6 manage.py test`
 ## Behaviour Driven Development
 |Behaviour| Input | Output|
 |---------|-------|-------|
